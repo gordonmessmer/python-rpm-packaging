@@ -115,6 +115,7 @@ EOF
 
 # Disable Python hash seed randomization
 # This helps to make byte-compilation more reproducible
+# Python 3.11+ no longer needs this: https://github.com/python/cpython/pull/27926 (but we support older Pythons as well)
 export PYTHONHASHSEED=0
 
 shopt -s nullglob
