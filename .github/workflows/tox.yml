@@ -25,7 +25,7 @@ jobs:
 
     strategy:
       matrix:
-        tox_env: [py38, py39]
+        tox_env: [py39]
         include:
           # Python 3.10 needs to compile cffi
           - tox_env: py310
