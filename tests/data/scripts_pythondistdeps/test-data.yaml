@@ -1178,9 +1178,9 @@
         corrupted.dist-info:
             stderr:
                 provides: |-
-                    Error: Python metadata at `*/corrupted.dist-info` are missing or corrupted.
+                    *Error: Python metadata at `*/corrupted.dist-info` are missing or corrupted.
                 requires: |-
-                    Error: Python metadata at `*/corrupted.dist-info` are missing or corrupted.
+                    *Error: Python metadata at `*/corrupted.dist-info` are missing or corrupted.
             stdout:
                 provides: '*** PYTHON_METADATA_FAILED_TO_PARSE_ERROR___SEE_STDERR ***'
                 requires: '*** PYTHON_METADATA_FAILED_TO_PARSE_ERROR___SEE_STDERR ***'
