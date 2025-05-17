@@ -148,7 +148,7 @@ do
 
 	# Generate normal (.pyc) byte-compiled files.
 	python_clamp_source_mtime "" "$python_binary" "" "$python_libdir" ""
-	if [ $? -ne 0 -a 0$errors_terminate -ne 0 ]; then
+	if [ $? -ne 0 ] && [ 0$errors_terminate -ne 0 ]; then
 		# One or more of the files had inaccessible mtime
 		exit 1
 	fi
