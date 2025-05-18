@@ -35,7 +35,7 @@ function python_clamp_source_mtime()
     local python_binary=$2
     local _=$3
     local python_libdir="$4"
-    PYTHONPATH=/usr/lib/rpm/redhat/ $python_binary -B -m clamp_source_mtime -q "$python_libdir"
+    $python_binary -B -m clamp_source_mtime -q "$python_libdir"
 }
 
 # This function now implements Python byte-compilation in three different ways:
@@ -81,7 +81,6 @@ function python_bytecompile()
 
         [ ! -z $exclude ] && exclude="-x '$exclude'"
 
-        # PYTHONPATH is needed for compileall2, but doesn't hurt for the stdlib
         # -o 0 -o 1 are the optimization levels
         # -q disables verbose output
         # -f forces the process to overwrite existing compiled files
@@ -90,7 +89,7 @@ function python_bytecompile()
         # -x and -e together implements the same functionality as the Filter class below
         # -s strips $RPM_BUILD_ROOT from the path
         # -p prepends the leading slash to the path to make it absolute
-        PYTHONPATH=/usr/lib/rpm/redhat/ $python_binary -B -m $compileall_module $compileall_flags -o 0 -o 1 -q -f $exclude -s "$RPM_BUILD_ROOT" -p / --hardlink-dupes $invalidation_option -e "$RPM_BUILD_ROOT" "$python_libdir"
+        $python_binary -B -m $compileall_module $compileall_flags -o 0 -o 1 -q -f $exclude -s "$RPM_BUILD_ROOT" -p / --hardlink-dupes $invalidation_option -e "$RPM_BUILD_ROOT" "$python_libdir"
 
     else
 

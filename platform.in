@@ -3,4 +3,5 @@
 ## Helper macro to unset $SOURCE_DATE_EPOCH if %%clamp_mtime_to_source_date_epoch is not set
 %__env_unset_source_date_epoch_if_not_clamp_mtime %[0%{?clamp_mtime_to_source_date_epoch} == 0 ? "env -u SOURCE_DATE_EPOCH" : "env"]
 
-%__brp_python_bytecompile %{__env_unset_source_date_epoch_if_not_clamp_mtime} %{_rpmconfigdir}/brp-python-bytecompile "" "%{?_python_bytecompile_errors_terminate_build}" "%{?_python_bytecompile_extra}" "%{_prefix}" "%{?_smp_mflags}"
+# PYTHONPATH is needed to locate the compileall2 module
+%__brp_python_bytecompile %{__env_unset_source_date_epoch_if_not_clamp_mtime} PYTHONPATH=/usr/lib/python-packaging %{_rpmconfigdir}/brp-python-bytecompile "" "%{?_python_bytecompile_errors_terminate_build}" "%{?_python_bytecompile_extra}" "%{_prefix}" "%{?_smp_mflags}"
