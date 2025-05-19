@@ -12,7 +12,7 @@ errors_terminate=$2
 # by default.  $default_python stays in the arguments for backward
 # compatibility and so does $extra, for the following check:
 extra=$3
-if [ 0$extra -eq 1 ]; then
+if [[ 0"$extra" -eq 1 ]]; then
     echo -e "%_python_bytecompile_extra is discontinued, use %py_byte_compile instead.\n" >/dev/stderr
     exit 1
 fi
@@ -24,7 +24,7 @@ prefix=${4:-/usr}
 compileall_flags="$5"
 
 # If using normal root, avoid changing anything.
-if [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ]; then
+if [[ -z "$RPM_BUILD_ROOT" ]] || [[ "$RPM_BUILD_ROOT" = "/" ]]; then
 	exit 0
 fi
 
@@ -55,14 +55,14 @@ function python_bytecompile()
     #
     # Python 3.4 and higher
     #
-    if [ "$python_version" -ge 34 ]; then
+    if [[ "$python_version" -ge 34 ]]; then
 
         # We compile all opt levels in one go: only when $options is empty.
-        if [ -n "$options" ]; then
+        if [[ -n "$options" ]]; then
             return
         fi
 
-        if [ "$python_version" -ge 39 ]; then
+        if [[ "$python_version" -ge 39 ]]; then
             # For Pyhon 3.9+, use the standard library
             compileall_module=compileall
         else
@@ -70,7 +70,7 @@ function python_bytecompile()
             compileall_module=compileall2
         fi
 
-        if [ "$python_version" -ge 37 ]; then
+        if [[ "$python_version" -ge 37 ]]; then
             # Force the TIMESTAMP invalidation mode
             invalidation_option=--invalidation-mode=timestamp
         else
@@ -79,7 +79,7 @@ function python_bytecompile()
             invalidation_option=
         fi
 
-        [ ! -z $exclude ] && exclude="-x '$exclude'"
+        [[ -n "$exclude" ]] && exclude="-x '$exclude'"
 
         # -o 0 -o 1 are the optimization levels
         # -q disables verbose output
@@ -147,12 +147,12 @@ do
 
 	# Generate normal (.pyc) byte-compiled files.
 	python_clamp_source_mtime "" "$python_binary" "" "$python_libdir" ""
-	if [ $? -ne 0 ] && [ 0$errors_terminate -ne 0 ]; then
+	if [[ $? -ne 0 ]] && [[ 0"$errors_terminate" -ne 0 ]]; then
 		# One or more of the files had inaccessible mtime
 		exit 1
 	fi
 	python_bytecompile "" "$python_binary" "" "$python_libdir" "$compileall_flags"
-	if [ $? -ne 0 ] && [ 0$errors_terminate -ne 0 ]; then
+	if [[ $? -ne 0 ]] && [[ 0"$errors_terminate" -ne 0 ]]; then
 		# One or more of the files had a syntax error
 		exit 1
 	fi
@@ -160,7 +160,7 @@ do
 	# Generate optimized (.pyo) byte-compiled files.
 	# N.B. For Python 3.4+, this call does nothing
 	python_bytecompile "-O" "$python_binary" "" "$python_libdir" "$compileall_flags"
-	if [ $? -ne 0 ] && [ 0$errors_terminate -ne 0 ]; then
+	if [[ $? -ne 0 ]] && [[ 0"$errors_terminate" -ne 0 ]]; then
 		# One or more of the files had a syntax error
 		exit 1
 	fi
